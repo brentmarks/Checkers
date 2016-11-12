@@ -2,25 +2,21 @@ package checkers;
 
 /**** @author brentmarks*/
 
-public class User 
-{
+public class User {
     
     private String color;
     private String name;
     
-    public User(String color, String name)
-    {
+    public User(String color, String name){
         this.color = color;
         this.name = name;
     }
     
-    public String getColor()
-    {
+    public String getColor(){
         return this.color;
     }
     
-    public String getName()
-    {
+    public String getName(){
         return this.name;
     }
 }

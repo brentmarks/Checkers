@@ -2,30 +2,28 @@ package checkers;
 
 /**** @author brentmarks*/
 
+import java.util.ArrayList;
+
 public class Board
 {
     
     private static Board instance = null;
     public Checker[][] pieces = new Checker[8][8];
     
-    public static Board getInstance()
-    {
+    public static Board getInstance(){
         if(instance == null){
             instance = new Board();
         }
         return instance;
     }
-    
     private Board(){
         setupBoard();
     }
     private void setupBoard(){
         int[] xr = { 0, 2, 4, 6, 1, 3, 5, 7, 0, 2, 4, 6 };
         int[] xw = { 1, 3, 5, 7, 0, 2, 4, 6, 1, 3, 5, 7 };
-        for(int i = 0; i < 3; i++)
-        {
-            for(int j = 0; j < 4; j++)
-            {
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 4; j++){
                 pieces[i][xw[j + (4 * i)]] = new Checker("r");
                 pieces[i + 5][xr[j + (4 * i)]] = new Checker("w");
             }
@@ -35,103 +33,92 @@ public class Board
         String stuff = "";
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
-                if(pieces[i][j] != null){
-                    stuff += pieces[i][j].toString();
-                }else{
-                    stuff += "-";
-                }
+                stuff += pieces[i][j] instanceof Checker ? pieces[i][j].toString() : "-";
             }
             stuff += "\n";
         }
         System.out.println(stuff);
     }
-    public boolean movePiece(String color, int x1, int y1, int x2, int y2){
-        if(!outOfBounds(x1, y1, x2, y2) && pieceChecks(x1, y1, x2, y2) && moveCheck(color, x1, y1, x2, y2)){
-            pieces[x2][y2] = pieces[x1][y1];
-            pieces[x1][y1] = null;
+    public boolean movePiece(String color, Move start, Move fin){
+        if(!outOfBounds(start, fin) && pieceChecks(start, fin) && moveCheck(pieces[start.getX()][start.getY()], start, fin)){
+            pieces[fin.getX()][fin.getY()] = pieces[start.getX()][start.getY()];
+            pieces[start.getX()][start.getY()] = null;
         }else{
-            System.err.println("Must give a valid move!!! OOB: " + outOfBounds(x1, y1, x2, y2) + " PC: " + pieceChecks(x1, y1, x2, y2) + " MC: " + moveCheck(color, x1, y1, x2, y2));
+            System.err.println("Must give a valid move!!!");
             return false;
         }
         return true;
     }
-    public boolean skipPiece(String color, int x1, int y1, int x2, int y2){
-        if(!outOfBounds(x1, y1, x2, y2) && pieceChecks(x1, y1, x2, y2) && skipCheck(color, x1, y1, x2, y2))
-        {
-            int redWhite = color.equals("w") ? -1 : 1;
-            pieces[x2][y2] = pieces[x1][y1];
-            pieces[x1][y1] = null;
-            int h = y2 > y1 ? -1 : 1;
-            System.out.println("h: " + h + " " + (x2 + redWhite) + " " +  (y2 + h));
-            pieces[x1 + redWhite][y2 + h] = null;
+    public boolean skipPiece(String color, Move start, Move fin){
+        if(!outOfBounds(start, fin) && pieceChecks(start, fin) && skipCheck(pieces[start.getX()][start.getY()], start, fin)){
+            pieces[fin.getX()][fin.getY()] = pieces[start.getX()][start.getY()];
+            pieces[start.getX()][start.getY()] = null;
+            int h = fin.getY() > start.getY() ? -1 : 1;
+            pieces[start.getX() + sideConstant(color)][fin.getY() + h] = null;
         }else{
-            System.err.println("Must give a valid move!!! OOB: " + outOfBounds(x1, y1, x2, y2) + " PC: " + pieceChecks(x1, y1, x2, y2) + " MC: " + moveCheck(color, x1, y1, x2, y2));
+            System.err.println("Must give a valid move!!!");
             return false;
         }
         return true;
     }
-    public boolean outOfBounds(int x1, int y1, int x2, int y2){
-        boolean neg = x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0;
-        boolean tooLarge = x1 > 7 || x2 > 7 || y1 > 7 || y2 > 7;
+    public boolean outOfBounds(Move start, Move fin){
+        boolean neg = start.getX() < 0 || fin.getX() < 0 || start.getY() < 0 ||fin.getY() < 0;
+        boolean tooLarge = start.getX() > 7 || fin.getX() > 7 || start.getY() > 7 || fin.getY() > 7;
         return neg || tooLarge;
     }
-    public boolean pieceChecks(int x1, int y1, int x2, int y2){
-        boolean originalSpotFilled = pieces[x1][y1] != null;
-        boolean finalSpotFilled = pieces[x2][y2] != null;
+    public boolean outOfBounds(Move m){
+        boolean neg = m.getX() < 0 || m.getY() < 0;
+        boolean tooLarge = m.getX() > 7 || m.getY() > 7;
+        return neg || tooLarge;
+    }
+    public boolean pieceChecks(Move start, Move fin){
+        boolean originalSpotFilled = pieces[start.getX()][start.getY()] != null;
+        boolean finalSpotFilled = pieces[fin.getX()][fin.getY()] != null;
         return !finalSpotFilled && originalSpotFilled;
     }
-    public boolean moveCheck(String color, int x1, int y1, int x2, int y2){
-        int redWhite = color.equals("w") ? -1 : 1;
-        int tmpX2 = x1 + redWhite;
-        int tmpY2_1 = y1 + 1;
-        int tmpY2_2 = y1 - 1;
-        boolean correctX2 = tmpX2 == x2;
-        boolean correctY2 = tmpY2_1 == y2 || tmpY2_2 == y2;
-        return correctX2 && correctY2;
+    public boolean moveCheck(Checker c, Move start, Move fin){
+        ArrayList<Move> moves = c.getMoves("move", start);
+        return moves.contains(fin);
     }
-    public boolean skipCheck(String color, int x1, int y1){
-        boolean good1 = false, good2 = false;
-        int redWhite = color.equals("w") ? -2 : 2;
-        int tmpX2 = x1 + redWhite;
-        int tmpY2_1 = y1 + 2;
-        int tmpY2_2 = y1 - 2;
-        if(tmpX2 >= 0 && tmpY2_1 >= 0){
-            Checker tmp1 = pieces[tmpX2][tmpY2_1];
-            good1 = tmp1 == null;
+    public boolean skipCheck(Checker c, Move start){
+        ArrayList<Move> moves = c.getMoves("skip", start);
+        for (Move m: moves){
+            if(m.getX() >= 0 && m.getY() >= 0){
+                Checker tmp1 = pieces[m.getX()][m.getY()];
+                if(tmp1 == null){
+                    return true;
+                }
+            }
         }
-        if(tmpX2 >= 0 && tmpY2_2 >= 0){
-            Checker tmp2 = pieces[tmpX2][tmpY2_2];
-            good2 = tmp2 == null;
-        }
-        return good1 || good2;
+        return false;
     }
-    public boolean skipCheck(String color, int x1, int y1, int x2, int y2){
-        int redWhite = color.equals("w") ? -2 : 2;
-        int tmpX2 = x1 + redWhite;
-        int tmpY2_1 = y1 + 2;
-        int tmpY2_2 = y1 - 2;
-        boolean correctX2 = tmpX2 == x2;
-        boolean correctY2 = tmpY2_1 == y2 || tmpY2_2 == y2;
-        return correctX2 && correctY2;
+    public boolean skipCheck(Checker c, Move start, Move fin){
+        ArrayList<Move> moves = c.getMoves("skip", start);
+        return moves.contains(fin);
     }
-    public boolean skip(String color, int x1, int y1){
-        int redWhite = color.equals("w") ? -1 : 1;
-        int tmpX2 = x1 + redWhite;
-        int tmpY2_1 = y1 + 1;
-        int tmpY2_2 = y1 - 1;
+    public boolean skip(String color, int x1, int y1){//dont change x1, y1 it doesnt seem to work whe change will look at later
+        int tmpM = x1 + sideConstant(color);
+        int tmpYM_1 = y1 + 1;
+        int tmpYM_2 = y1 - 1;
         boolean canSkip1 = false, canSkip2 = false;
-        if(tmpY2_1 >= 0){
-            Checker tmp1 = pieces[tmpX2][tmpY2_1];
+        if(tmpM >= 0 && tmpYM_1 >= 0){
+            Checker tmp1 = pieces[tmpM][tmpYM_1];
             canSkip1 = tmp1 != null && tmp1.getColor().equals(flipColor(color));
-            //System.out.println("g "+ canSkip1 + " " + tmpY2_2);
         }
-        if(tmpY2_2 >= 0){
-            Checker tmp2 = pieces[tmpX2][tmpY2_2];
+        if(tmpM >= 0 && tmpYM_2 >= 0){
+            Checker tmp2 = pieces[tmpM][tmpYM_2];
             canSkip2 = tmp2 != null && tmp2.getColor().equals(flipColor(color));
         }
-        return (canSkip1 || canSkip2) && skipCheck(color, x1, y1);
+        return (canSkip1 || canSkip2) && skipCheck(pieces[x1][y1], new Move(x1, y1));
     }
     public String flipColor(String color){
         return color.equals("w") ? "r" : "w";
+    }
+    public int sideConstant(String color){//rename later
+        return color.equals("w") ? -1 : 1;
+    }
+    @Override
+    public String toString(){
+        return "";//equivalent to printBoard() method
     }
 }

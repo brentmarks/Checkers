@@ -101,7 +101,7 @@ public class Board
         int tmpYM_1 = y1 + 1;
         int tmpYM_2 = y1 - 1;
         boolean canSkip1 = false, canSkip2 = false;
-        if(!outOfBounds(new Move(x1, y1)) && color.equals(pieces[x1][y1])){
+        if(!outOfBounds(new Move(x1, y1)) && color.equals(pieces[x1][y1].getColor())){
             if(tmpM >= 0 && tmpYM_1 >= 0 && tmpM <= 7 && tmpYM_1 <= 7){
                 Checker tmp1 = pieces[tmpM][tmpYM_1];
                 canSkip1 = tmp1 != null && tmp1.getColor().equals(flipColor(color));

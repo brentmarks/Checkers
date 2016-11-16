@@ -1,9 +1,7 @@
 package checkers;
 
-/**
- *
- * @author brentmarks
- */
+/**** @author brentmarks*/
+
 public class Move {
     
     private int x;
@@ -13,7 +11,6 @@ public class Move {
         this.x = x;
         this.y = y;
     }
-    
     public void setX(int x){
         this.x = x;
     }
@@ -28,6 +25,10 @@ public class Move {
     }
     @Override
     public boolean equals(Object m){
-        return ((Move)m).x == x && ((Move)m).y == y;
+        return m instanceof Move && ((Move)m).x == x && ((Move)m).y == y;
+    }
+    @Override
+    public String toString(){
+        return "Move [ " + x + ", " + y + " ]";
     }
 }

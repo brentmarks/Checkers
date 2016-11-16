@@ -1,22 +1,32 @@
 package checkers;
 
-/**** @author brentmarks */
+/*
+*
+*
+* @author brent marks 
+*/
 
 import java.util.ArrayList;
 
-public class Checker 
-{
+public class Checker {
     private String color;
     private boolean king;
     
     public Checker(String color){
         this.color = color.toLowerCase();
     }
+    
     //add in logic to for converting piece into king when reach the other side of the board
     //turns the piece into a king piece
-    public void kingMe(){
-        king = true;
-        color = color.toUpperCase();
+    //Checks if the a piece is on the other side and changes to king
+    public void kingMe(Move fin){
+        if(color.equals("w") && fin.getX() == 0){
+            king = true;
+            color = color.toUpperCase();
+        }else if(color.equals("r") && fin.getX() == 7){
+            king = true;
+            color = color.toUpperCase();
+        }
     }
     public boolean isKing(){
         return king;
@@ -24,25 +34,42 @@ public class Checker
     public String getColor(){
         return color;
     }
-    public void movePiece(){
-        
-    }
+    //returns an arraylist of possible moves that are legal
     public ArrayList<Move> getMoves(String type, Move start){//type = "move" or "skip"
-        ArrayList<Move> moves = new ArrayList<Move>();
-        if(!king){
-            if(type.equals("move")){
-                moves.add(new Move(start.getX() + sideConstant(color), start.getY() + 1));//possible move 1
-                moves.add(new Move(start.getX() + sideConstant(color), start.getY() - 1));//possible move 2
-            }else if(type.equals("skip")){
-                moves.add(new Move(start.getX() + sideConstant(color)*2, start.getY() + 2));//possible move 1
-                moves.add(new Move(start.getX() + sideConstant(color)*2, start.getY() - 2));//possible move 2
-            }else{
-                System.err.println("WRONG");//insert trump gif
-                return null;
-            }
+        ArrayList<Move> moves = new ArrayList<>();
+        if(king){
+             switch (type) {
+                    case "move":
+                        moves.add(new Move(start.getX() + sideConstant(color), start.getY() + 1));//possible move 1
+                        moves.add(new Move(start.getX() + sideConstant(color), start.getY() - 1));//possible move 2
+                        moves.add(new Move(start.getX() - sideConstant(color), start.getY() + 1));//possible move 3
+                        moves.add(new Move(start.getX() - sideConstant(color), start.getY() - 1));//possible move 4
+                        break;
+                    case "skip":
+                        moves.add(new Move(start.getX() + sideConstant(color) * 2, start.getY() + 2));//possible move 1
+                        moves.add(new Move(start.getX() + sideConstant(color) * 2, start.getY() - 2));//possible move 2
+                        moves.add(new Move(start.getX() - sideConstant(color) *2, start.getY() + 2));//possible move 3
+                        moves.add(new Move(start.getX() - sideConstant(color) * 2, start.getY() - 2));//possible move 4
+                        break;
+                    default:
+                        System.err.println("WRONG");
+                        return null;
+                }
         }else{
-            //king should have 4 moves
-            return null;
+            switch (type) {
+                case "move":
+                    moves.add(new Move(start.getX() + sideConstant(color), start.getY() + 1));//possible move 1
+                    moves.add(new Move(start.getX() + sideConstant(color), start.getY() - 1));//possible move 2
+                    break;
+                case "skip":
+                    moves.add(new Move(start.getX() + sideConstant(color)*2, start.getY() + 2));//possible move 1
+                    moves.add(new Move(start.getX() + sideConstant(color)*2, start.getY() - 2));//possible move 2
+                    break;
+                default:
+                    System.err.println("WRONG");//insert trump gif
+                    return null;
+            }
+            
         }
         return moves;
     }

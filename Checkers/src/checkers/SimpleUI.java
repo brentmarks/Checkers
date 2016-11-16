@@ -10,8 +10,8 @@ import java.util.Scanner;
 public class SimpleUI {
     private static Scanner sc = new Scanner(System.in);
     
-    public String skipOption(Board b, String color, int x1, int y1){
-        if(b.skip(color, x1, y1)){
+    public String skipOption(Board b, String color, Move start){
+        if(b.skip(color, start)){
             System.out.println("Would you like to skip or move piece? (yes/no)");
             String input = sc.nextLine();
             return input;
@@ -33,7 +33,7 @@ public class SimpleUI {
                     break;
                 }
             }
-            if(!b.outOfBounds(new Move(loc[0], loc[1])) && b.getPiece(loc[0], loc[1]).getColor().equals(color)){
+            if(!b.outOfBounds(new Move(loc[0], loc[1])) && b.getPiece(loc[0], loc[1]) != null && b.getPiece(loc[0], loc[1]).getColor().equalsIgnoreCase(color)){
                 cont = cont1;
             }else{
                 System.err.println("Please enter valid move!!");
@@ -56,7 +56,7 @@ public class SimpleUI {
                     break;
                 }
             }
-            if(!b.outOfBounds(new Move(loc[0], loc[1])) && b.getPiece(loc[0], loc[1]).getColor().equals(color)){
+            if(!b.outOfBounds(new Move(loc[0], loc[1])) && b.getPiece(loc[0], loc[1]) != null && b.getPiece(loc[0], loc[1]).getColor().equalsIgnoreCase(color)){
                 cont = cont1;
             }else{
                 System.err.println("Please enter a proper move!!");

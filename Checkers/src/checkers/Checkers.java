@@ -29,24 +29,23 @@ public class Checkers {
                 int[] loc = new int[4];
                 
                 loc = ui.initialLocationInput(b, current.getName(), loc, current.getColor());
-                String input3 = ui.skipOption(b, current.getColor(), loc[0], loc[1]);
+                String input3 = ui.skipOption(b, current.getColor(), new Move(loc[0], loc[1]));
 
                 loc = ui.moveInput(b, current.getName(), loc, current.getColor());
                 
                 if(input3.equals("yes")){
                     a1 = !b.skipPiece(current.getColor(), new Move(loc[0], loc[1]), new Move(loc[2], loc[3]));
-                    boolean cont2 = !a1 && b.skip(current.getColor(), loc[2], loc[3]);
+                    boolean cont2 = !a1 && b.skip(current.getColor(), new Move(loc[2], loc[3]));
                     while(cont2){
                         //move starting values to account for new starting location
                         loc[0] = loc[2];
                         loc[1] = loc[3];
-                        if(!a1 && b.skip(current.getColor(), loc[0], loc[1])){
-                            String input4 = ui.skipOption(b, current.getColor(), loc[0], loc[1]);
+                        if(!a1 && b.skip(current.getColor(), new Move(loc[0], loc[1]))){
+                            String input4 = ui.skipOption(b, current.getColor(), new Move(loc[0], loc[1]));
                             loc = ui.moveInput(b, current.getName(), loc, current.getColor());
                             if(input4.equalsIgnoreCase("yes")){
                                 a1 = !b.skipPiece(current.getColor(), new Move(loc[0], loc[1]), new Move(loc[2], loc[3]));
                             }else{
-                                
                                 a1 = !b.movePiece(current.getColor(), new Move(loc[0], loc[1]), new Move(loc[2], loc[3]));
                                 cont2 = false;
                             }

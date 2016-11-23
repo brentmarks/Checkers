@@ -8,6 +8,16 @@ package checkers;
 
 import java.util.ArrayList;
 
+/**
+ * OVERVIEW: This is an immutable class that initializes the board with 
+ *           white pieces at: (5,0), (5,2), (5,4), (5,6)
+ *                            (6,1), (6,3), (6,5), (6,7)
+ *                            (7,0), (7,2), (7,4), (7,6)
+ *           Red pieces at:   (0,1), (0,3), (0,5), (0,7)
+ *                            (2,0), (2,2), (2,4), (2,6)
+ *                            (3,1), (3,3), (3,5), (3,6).
+ */
+
 public class Board {
 
     private static Board instance = null;

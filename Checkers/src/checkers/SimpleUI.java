@@ -6,12 +6,25 @@ package checkers;
  * @author Vidhi Patel
 **/
 
+/**
+ * OVERVIEW: Instantiates a scanner object which takes in the current location 
+ *           of the piece, the final location of the piece and if a skip is possible 
+ *           the option is then takes user's decision.
+ */
+
 import java.util.Scanner;
 
 public class SimpleUI {
     
     private static final Scanner sc = new Scanner(System.in);
-    
+    /**
+     * Requires: The instance of the board, the color of the player and the starting location
+     * Effects: If a piece can be skipped, the user is asked if they want to skip over the piece. 
+     * @param b
+     * @param color
+     * @param start
+     * @return 
+     */
     public String skipOption(Board b, String color, Move start){
         if(b.skip(color, start)){
             System.out.println("Would you like to skip this piece enter yes of no? (yes/no)");
@@ -20,7 +33,15 @@ public class SimpleUI {
         }
         return "";
     }
-    
+    /**
+     * Requires: Current location of the piece 
+     * Modifies: The array of locations to the user input location.
+     * @param b
+     * @param name
+     * @param loc
+     * @param color
+     * @return the new integer array of the current location.
+     */
     public int[] initialLocationInput(Board b, String name, int[] loc, String color){
         boolean cont = true, cont1 = false;
         while(cont){
@@ -44,7 +65,15 @@ public class SimpleUI {
         }
         return loc;
     }
-    
+    /**
+     * Requires: Final location of the piece 
+     * Modifies: The array of locations to the user final location, add to the array of input locations.
+     * @param b
+     * @param name
+     * @param loc
+     * @param color
+     * @return 
+     */
     public int[] moveInput(Board b, String name, int[] loc, String color){
         boolean cont = true, cont1 = false;
         while(cont){
@@ -70,7 +99,8 @@ public class SimpleUI {
     }
     
     /**
-     * 
+     * Requires: The names of the players
+     * Effects: Sets user 1 to be red and user 2 to be white
      * @return the array of 2 users
      */
     public User[] createUsers(){

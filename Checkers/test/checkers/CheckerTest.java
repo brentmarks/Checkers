@@ -14,85 +14,116 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author brentmarks
+ * @author Brent Marks
+ * @author Vruti Vaghela
+ * @author Vidhi Patel
  */
 public class CheckerTest {
-    
-    public CheckerTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
-     * Test of kingMe method, of class Checker.
+     * Test of kingMe method, of class Checker (Piece is converted to king). 
      */
     @Test
-    public void testKingMe() {
+    public void testKingMeKinged() {
         System.out.println("kingMe");
-        Move fin = null;
-        Checker instance = null;
+        Move fin = new Move(0, 1);
+        Checker instance = new Checker("w");
         instance.kingMe(fin);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("W", instance.getColor());
+    }
+    
+    /**
+    * Test of kingMe method, of class Checker (Piece is not converted to king).
+    */
+    @Test
+    public void testKingMeNotKinged() {
+        System.out.println("kingMe");
+        Move fin = new Move(1, 2);
+        Checker instance = new Checker("w");
+        instance.kingMe(fin);
+        assertEquals("w", instance.getColor());
     }
 
     /**
-     * Test of isKing method, of class Checker.
+     * Test of isKing method, of class Checker King.
      */
     @Test
-    public void testIsKing() {
+    public void testIsKingTrue() {
         System.out.println("isKing");
-        Checker instance = null;
+        Checker instance = new Checker("r");
+        instance.kingMe(new Move(7, 0));
+        boolean expResult = true;
+        boolean result = instance.isKing();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of isKing method, of class Checker Not King.
+     */
+    @Test
+    public void testIsKingFalse() {
+        System.out.println("isKing");
+        Checker instance = new Checker("r");
+        instance.kingMe(new Move(6, 1));
         boolean expResult = false;
         boolean result = instance.isKing();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getColor method, of class Checker.
+     * Test of getColor method, of class Checker Red.
      */
     @Test
-    public void testGetColor() {
+    public void testGetColorRed() {
         System.out.println("getColor");
-        Checker instance = null;
-        String expResult = "";
+        Checker instance = new Checker("r");
+        String expResult = "r";
         String result = instance.getColor();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+    * Test of getColor method, of class Checker White.
+    */
+    @Test
+    public void testGetColorWhite() {
+        System.out.println("getColor");
+        Checker instance = new Checker("w");
+        String expResult = "w";
+        String result = instance.getColor();
+        assertEquals(expResult, result);
     }
 
     /**
-     * Test of getMoves method, of class Checker.
+     * Test of getMoves method, of class Checker (Move).
      */
     @Test
-    public void testGetMoves() {
+    public void testGetMovesMove() {
         System.out.println("getMoves");
-        String type = "";
-        Move start = null;
-        Checker instance = null;
-        ArrayList<Move> expResult = null;
+        String type = "move";
+        Move start = new Move(2, 3);
+        Checker instance = new Checker("r");
+        ArrayList<Move> expResult = new ArrayList();
+        expResult.add(new Move(3, 4));//possible move 1
+        expResult.add(new Move(3, 2));//possible move 2
         ArrayList<Move> result = instance.getMoves(type, start);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+    * Test of getMoves method, of class Checker (Skip).
+    */
+    @Test
+    public void testGetMovesSkip() {
+        System.out.println("getMoves");
+        String type = "skip";
+        Move start = new Move(2, 3);
+        Checker instance = new Checker("r");
+        ArrayList<Move> expResult = new ArrayList();
+        expResult.add(new Move(2 + 2, 3 + 2));
+        expResult.add(new Move(2 + 2, 3 - 2));
+        ArrayList<Move> result = instance.getMoves(type, start);
+        assertEquals(expResult, result);
     }
 
     /**

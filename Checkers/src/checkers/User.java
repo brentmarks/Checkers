@@ -6,6 +6,10 @@ package checkers;
  * @author Vidhi Patel
  **/
 
+/**
+ * OVERVIEW: Creates user object with a name and color (either red or white). 
+ */
+
 public class User {
     
     private final String color;

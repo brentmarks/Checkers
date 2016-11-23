@@ -5,6 +5,11 @@ package checkers;
  *  @author Vidhi Patel
 **/
 
+/**
+ * OVERVEIW: This is a mutable class, which takes in the x and y coordinates of 
+ *           a piece.
+ */
+
 public class Move {
     
     private int x;

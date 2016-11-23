@@ -1,10 +1,16 @@
- package checkers;
+package checkers;
 
 /**
 * @author brent marks 
 * @author Vruti Vaghela
 * @author Vidhi Patel
 **/
+ 
+/**
+* OVERVIEW: This is an immutable class,
+*           Instantiates the checker piece to lowercase letters: 'r' or 'w'
+*           The color will change to upperCase if the piece is on the other side.
+*/
 
 import java.util.ArrayList;
 

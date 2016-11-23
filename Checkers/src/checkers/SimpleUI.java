@@ -1,9 +1,10 @@
 package checkers;
 
 /**
- *
- * @author brentmarks
-*/
+ * @author Brent Marks
+ * @author Vruti Vaghela
+ * @author Vidhi Patel
+**/
 
 import java.util.Scanner;
 
@@ -64,6 +65,10 @@ public class SimpleUI {
         }
         return loc;
     }
+    /**
+     * 
+     * @return the array of 2 users
+     */
     public User[] createUsers(){
         User[] users = new User[2];
         System.out.println("Please enter your name for player red:");

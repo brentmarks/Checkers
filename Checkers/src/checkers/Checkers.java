@@ -1,8 +1,10 @@
 package checkers;
 
-import java.util.Scanner;
-
-/**** @author brentmarks*/
+/** 
+ * @author Brent Marks
+ * @author Vruti Vaghela
+ * @author Vidhi Patel
+**/
 
 public class Checkers {
    

@@ -1,13 +1,15 @@
-package checkers;
+ package checkers;
 
 /*
-*
-*
-* @author brent marks 
+* @author brent marks, VIDHI PATEL
 */
 
 import java.util.ArrayList;
-
+/**
+ * OVERVIEW: This is an immutable class,
+ *           Instantiates the checker piece to lowercase letters: 'r' or 'w'
+ *           The color will change to upperCase if the piece is on the other side.
+*/
 public class Checker {
     private String color;
     private boolean king;
@@ -16,9 +18,12 @@ public class Checker {
         this.color = color.toLowerCase();
     }
     
-    //add in logic to for converting piece into king when reach the other side of the board
-    //turns the piece into a king piece
-    //Checks if the a piece is on the other side and changes to king
+/**
+ * Requires: The final location of the piece
+ * Modifies: Characteristics of the piece change when a piece reaches the other side of the board
+ * Effects: The letter of the color is capitalized.
+ * @param fin 
+ */    
     public void kingMe(Move fin){
         if(color.equals("w") && fin.getX() == 0){
             king = true;
@@ -28,12 +33,27 @@ public class Checker {
             color = color.toUpperCase();
         }
     }
+    /**
+     * @return if the piece is a king
+     */
     public boolean isKing(){
         return king;
     }
+    /**
+     * @return the color of the piece
+     */
     public String getColor(){
         return color;
     }
+    /**
+     * Requires: The type of move, "move" or "skip" and the starting location of the piece within the board
+     * Modifies: The arrayList of moves for each type of pieces
+     * Effects: If the piece is a king, then it can move to 4 different location, 
+     *          Otherwise, the piece can move in two directions.
+     * @param type
+     * @param start
+     * @return ArrayList of possible moves for the type of piece
+     */
     //returns an arraylist of possible moves that are legal
     public ArrayList<Move> getMoves(String type, Move start){//type = "move" or "skip"
         ArrayList<Move> moves = new ArrayList<>();
@@ -73,9 +93,19 @@ public class Checker {
         }
         return moves;
     }
+    /**
+     * Requires: The color of the piece; either red or white
+     * Effects : if the color is white it returns -1 or 1 if the color is red 
+     * @param color
+     * @return either 1 or -1 depending on the color
+     */
     public int sideConstant(String color){//rename later
         return color.equals("w") ? -1 : 1;
     }
+    
+    /**
+     * @return the color of the piece
+     */
     @Override
     public String toString(){
         return color;

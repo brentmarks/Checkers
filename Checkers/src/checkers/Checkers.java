@@ -1,20 +1,36 @@
 package checkers;
 
-import java.util.Scanner;
-
 /**** @author brentmarks*/
-
+/**
+ * OVERVIEW: Checkers is an immutable class
+ *           Instantiates a User objects, the current user, the Red user and 
+ *           the white user and a simpleUI object
+ *           The current user checks the whether it is the Red player's turn or 
+ *           White player's turn, according to this, the moves are given to the 
+ *           corresponding player
+ * @author VIDHI PATEL
+ */
 public class Checkers {
    
     public static User current;
     public static User Red, White;
     public static SimpleUI ui;
     
+    /**
+     * Effects : Assigns first user to be a red player
+     *           Assigns second user to be a white player.
+     */
     public static void createUsers(){
         User[] users = ui.createUsers();
         Red = users[0];
         White = users[1];
     }
+    
+    /**
+     * Modifies: Creates the games; initializes a SimpleUI object, an instance of a board, creates users
+     *           Asks the user to input the current location and final location of the move
+     * Effects: Changes the board as a piece is moved to a different location. 
+     */
     public static void Users(){
         ui = new SimpleUI();
         Board b = Board.getInstance();
@@ -62,6 +78,10 @@ public class Checkers {
             a1 = true;
         }
     }
+    /**
+     * Calls the user object to initiate the game.
+     * @param args 
+     */
     public static void main(String[] args) {
         Users();
     }

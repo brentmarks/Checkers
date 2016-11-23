@@ -9,16 +9,18 @@ package checkers;
 import java.util.Scanner;
 
 public class SimpleUI {
-    private static Scanner sc = new Scanner(System.in);
+    
+    private static final Scanner sc = new Scanner(System.in);
     
     public String skipOption(Board b, String color, Move start){
         if(b.skip(color, start)){
-            System.out.println("Would you like to skip or move piece? (yes/no)");
+            System.out.println("Would you like to skip this piece enter yes of no? (yes/no)");
             String input = sc.nextLine();
             return input;
         }
         return "";
     }
+    
     public int[] initialLocationInput(Board b, String name, int[] loc, String color){
         boolean cont = true, cont1 = false;
         while(cont){
@@ -42,6 +44,7 @@ public class SimpleUI {
         }
         return loc;
     }
+    
     public int[] moveInput(Board b, String name, int[] loc, String color){
         boolean cont = true, cont1 = false;
         while(cont){
@@ -65,6 +68,7 @@ public class SimpleUI {
         }
         return loc;
     }
+    
     /**
      * 
      * @return the array of 2 users
@@ -78,5 +82,9 @@ public class SimpleUI {
         String white = sc.nextLine();
         users[1] = new User("w", white);
         return users;
+    }
+    
+    public void gameOver(User winner){
+        System.out.println("Congratulations " + winner.getName() + " you have won the game.");
     }
 }

@@ -5,6 +5,7 @@ package checkers;
  * @author Vruti Vaghela
  * @author Vidhi Patel
 **/
+
 import java.util.ArrayList;
 
 public class Board {
@@ -18,12 +19,14 @@ public class Board {
         }
         return instance;
     }
+    
     /**
      * creates an instance of the board.
      */
     private Board() {
         setupBoard();
     }
+    
     private void setupBoard() {
         int[] xr = { 0, 2, 4, 6, 1, 3, 5, 7, 0, 2, 4, 6 };
         int[] xw = { 1, 3, 5, 7, 0, 2, 4, 6, 1, 3, 5, 7 };
@@ -33,11 +36,12 @@ public class Board {
                 pieces[i + 5][xr[j + (4 * i)]] = new Checker("w");
             }
         }
-        //pieces[0][1] = new Checker("w");
-        //pieces[0][1].kingMe(new Move(0, 1));
+        //pieces[2][3] = new Checker("w");
+        //pieces[2][3].kingMe(new Move(0, 1));
         //pieces[1][2] = new Checker("r");
         //pieces[0][5] = new Checker("r");
     }
+    
     /**
      * creates a board that is 8 by 8 grid long.
      */
@@ -51,6 +55,7 @@ public class Board {
         }
         System.out.println(stuff);
     }
+    
     /**
      * Require: The start location, final location to be within the bounds
      * Modifies: The location of the piece if the skip is possible
@@ -72,8 +77,9 @@ public class Board {
         }
         return true;
     }
+    
     /**
-     * /**
+     *
      * Require: The start and fin objects to be within the bounds
      * Modifies: If the piece reaches the other end the board, it becomes a king
      * Effects: Checks if the piece can skip a piece of opposite color and move to the final location
@@ -97,6 +103,7 @@ public class Board {
         }
         return true;
     }
+    
     /**
      * Effects: Checks if the locations are beyond the board size 
      * @param start
@@ -108,6 +115,7 @@ public class Board {
         boolean tooLarge = start.getX() > 7 || fin.getX() > 7 || start.getY() > 7 || fin.getY() > 7;
         return neg || tooLarge;
     }
+    
     /**
      * Effects: Checks if the location is beyond the board size 
      * @param m
@@ -185,7 +193,7 @@ public class Board {
     }
     
     /**
-     * /**
+     *
      * Requires: The starting object is within the bounds
      * Effects:  checks array of normal checkers or if the piece is a king then checks the array of the king
      *           If the checker piece is in the bounds, then a temp piece is created
@@ -205,7 +213,7 @@ public class Board {
             for (Move m : moves) {
                 if (!outOfBounds(m)) {
                     Checker tmp = pieces[m.getX()][m.getY()];
-                    if(tmp != null && tmp.getColor().equals(flipColor(color)) && skipCheck(getPiece(start.getX(), start.getY()), start)){
+                    if(tmp != null && tmp.getColor().equalsIgnoreCase(flipColor(color)) && skipCheck(getPiece(start.getX(), start.getY()), start)){
                         return true;
                     }
                 }
@@ -237,6 +245,11 @@ public class Board {
         }
         return null;
     }
+    
+    public Checker[][] getPieces(){
+        return pieces;
+    }
+    
     /**
      * 
      * @param color
@@ -245,6 +258,7 @@ public class Board {
     public int sideConstant(String color) {//rename later
         return color.equals("w") ? -1 : 1;
     }
+    
     @Override
     public String toString() {
         return "";//equivalent to printBoard() method

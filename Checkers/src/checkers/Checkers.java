@@ -11,13 +11,37 @@ public class Checkers {
     public static User current;
     public static User Red, White;
     public static SimpleUI ui;
+    public static int redNum, whiteNum;
     
     public static void createUsers(){
         User[] users = ui.createUsers();
         Red = users[0];
         White = users[1];
     }
-    public static void Users(){
+    
+    public static boolean FinishGame(Board b){
+        Checker[][] pieces = b.getPieces();
+        redNum = 0;
+        whiteNum = 0;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(redNum == 0 || whiteNum == 0){
+                    if(pieces[i][j] instanceof Checker){
+                        if(pieces[i][j].getColor().equalsIgnoreCase("w")){
+                            whiteNum++;
+                        }else{
+                            redNum++;
+                        }
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    public static void Game(){
         ui = new SimpleUI();
         Board b = Board.getInstance();
         b.printBoard();
@@ -27,7 +51,7 @@ public class Checkers {
         
         while(a){
             while(a1){
-                current = c.equals("r") ? Red : White; 
+                current = c.equalsIgnoreCase("r") ? Red : White; 
                 int[] loc = new int[4];
                 
                 loc = ui.initialLocationInput(b, current.getName(), loc, current.getColor());
@@ -35,7 +59,7 @@ public class Checkers {
 
                 loc = ui.moveInput(b, current.getName(), loc, current.getColor());
                 
-                if(input3.equals("yes")){
+                if(input3.equalsIgnoreCase("yes")){
                     a1 = !b.skipPiece(current.getColor(), new Move(loc[0], loc[1]), new Move(loc[2], loc[3]));
                     boolean cont2 = !a1 && b.skip(current.getColor(), new Move(loc[2], loc[3]));
                     while(cont2){
@@ -62,9 +86,14 @@ public class Checkers {
             b.printBoard();
             c = b.flipColor(c);
             a1 = true;
+            if(FinishGame(b)){
+                break;
+            }
         }
+        ui.gameOver(redNum > whiteNum ? Red : White);// finish the game
     }
+    
     public static void main(String[] args) {
-        Users();
+        Game();
     }
 }

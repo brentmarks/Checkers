@@ -8,8 +8,9 @@ package checkers;
 
 public class User {
     
-    private String color;
-    private String name;
+    private final String color;
+    private final String name;
+    
     /**
      * Creates an User object with a color (red or white) and name of the user
      * @param color
@@ -19,18 +20,21 @@ public class User {
         this.color = color;
         this.name = name;
     }
+    
     /**
      * @return the color of piece that the user represents 
      */
     public String getColor(){
         return this.color;
     }
+    
     /**
      * @return name of the user
      */
     public String getName(){
         return this.name;
     }
+    
     /**
      * @return the user name and color as a string object
      */

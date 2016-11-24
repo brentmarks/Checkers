@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package checkers;
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -25,7 +16,7 @@ public class CheckerTest {
      */
     @Test
     public void testKingMeKinged() {
-        System.out.println("kingMe");
+        System.out.println("kingMeKinged");
         Move fin = new Move(0, 1);
         Checker instance = new Checker("w");
         instance.kingMe(fin);
@@ -37,7 +28,7 @@ public class CheckerTest {
     */
     @Test
     public void testKingMeNotKinged() {
-        System.out.println("kingMe");
+        System.out.println("kingMeNotKinged");
         Move fin = new Move(1, 2);
         Checker instance = new Checker("w");
         instance.kingMe(fin);
@@ -49,7 +40,7 @@ public class CheckerTest {
      */
     @Test
     public void testIsKingTrue() {
-        System.out.println("isKing");
+        System.out.println("isKingTrue");
         Checker instance = new Checker("r");
         instance.kingMe(new Move(7, 0));
         boolean expResult = true;
@@ -62,7 +53,7 @@ public class CheckerTest {
      */
     @Test
     public void testIsKingFalse() {
-        System.out.println("isKing");
+        System.out.println("isKingFasle");
         Checker instance = new Checker("r");
         instance.kingMe(new Move(6, 1));
         boolean expResult = false;
@@ -75,7 +66,7 @@ public class CheckerTest {
      */
     @Test
     public void testGetColorRed() {
-        System.out.println("getColor");
+        System.out.println("getColorRed");
         Checker instance = new Checker("r");
         String expResult = "r";
         String result = instance.getColor();
@@ -87,7 +78,7 @@ public class CheckerTest {
     */
     @Test
     public void testGetColorWhite() {
-        System.out.println("getColor");
+        System.out.println("getColorWhite");
         Checker instance = new Checker("w");
         String expResult = "w";
         String result = instance.getColor();
@@ -99,7 +90,7 @@ public class CheckerTest {
      */
     @Test
     public void testGetMovesMove() {
-        System.out.println("getMoves");
+        System.out.println("getMovesMove");
         String type = "move";
         Move start = new Move(2, 3);
         Checker instance = new Checker("r");
@@ -115,7 +106,7 @@ public class CheckerTest {
     */
     @Test
     public void testGetMovesSkip() {
-        System.out.println("getMoves");
+        System.out.println("getMovesSkip");
         String type = "skip";
         Move start = new Move(2, 3);
         Checker instance = new Checker("r");
@@ -127,32 +118,28 @@ public class CheckerTest {
     }
 
     /**
-     * Test of sideConstant method, of class Checker.
+     * Test of sideConstant method, of class Checker (Red).
      */
     @Test
-    public void testSideConstant() {
-        System.out.println("sideConstant");
-        String color = "";
-        Checker instance = null;
-        int expResult = 0;
+    public void testSideConstantRed() {
+        System.out.println("sideConstantRed");
+        String color = "r";
+        Checker instance = new Checker("r");
+        int expResult = 1;
         int result = instance.sideConstant(color);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toString method, of class Checker.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Checker instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
+        /**
+     * Test of sideConstant method, of class Checker (White).
+     */
+    @Test
+    public void testSideConstantWhite() {
+        System.out.println("sideConstantWhite");
+        String color = "w";
+        Checker instance = new Checker("w");
+        int expResult = -1;
+        int result = instance.sideConstant(color);
+        assertEquals(expResult, result);
+    }
 }

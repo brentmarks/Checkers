@@ -109,6 +109,7 @@ public class Checkers {
             c = b.flipColor(c);
             a1 = true;
             if (FinishGame(b)) {
+                a = false;
                 break;
             }
         }
